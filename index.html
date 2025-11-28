@@ -1015,6 +1015,217 @@
             margin-top: 1rem;
         }
 
+        /* NEW: Enhanced Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-reveal {
+            overflow: hidden;
+        }
+
+        .text-reveal span {
+            display: inline-block;
+            transform: translateY(100%);
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .text-reveal.visible span {
+            transform: translateY(0);
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(45, 212, 191, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(45, 212, 191, 0);
+            }
+        }
+
+        .bounce-in {
+            animation: bounceIn 1s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .typing-text {
+            overflow: hidden;
+            border-right: 2px solid var(--primary);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translate(0, 0px);
+            }
+
+            50% {
+                transform: translate(0, 15px);
+            }
+
+            100% {
+                transform: translate(0, -0px);
+            }
+        }
+
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .5s, opacity 1s;
+        }
+
+        .ripple:active:after {
+            transform: scale(0, 0);
+            opacity: .2;
+            transition: 0s;
+        }
+
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: 9999;
+            transform: translateY(100%);
+        }
+
+        .cursor-follower {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background: rgba(45, 212, 191, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .hero-title {
@@ -1860,6 +2071,9 @@
 
             // Create floating icons
             createFloatingIcons();
+
+            // Initialize enhanced animations
+            initEnhancedAnimations();
         });
 
         // Mobile menu toggle
@@ -1958,6 +2172,269 @@
 
             // Set current year in footer
             document.getElementById('year').textContent = new Date().getFullYear();
+        }
+
+        // NEW: Enhanced animations
+        function initEnhancedAnimations() {
+            // Initialize GSAP ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero text animation
+            gsap.to('.hero-title', {
+                scrollTrigger: {
+                    trigger: '.hero-title',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse',
+                },
+                duration: 1,
+                y: 0,
+                opacity: 1,
+                ease: 'power3.out'
+            });
+
+            // Fade in elements on scroll
+            gsap.utils.toArray('.fade-in').forEach(element => {
+                gsap.from(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse',
+                    },
+                    duration: 1,
+                    y: 30,
+                    opacity: 0,
+                    ease: 'power3.out'
+                });
+            });
+
+            // Slide in from left
+            gsap.utils.toArray('.slide-in-left').forEach(element => {
+                gsap.from(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse',
+                    },
+                    duration: 1,
+                    x: -50,
+                    opacity: 0,
+                    ease: 'power3.out'
+                });
+            });
+
+            // Slide in from right
+            gsap.utils.toArray('.slide-in-right').forEach(element => {
+                gsap.from(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse',
+                    },
+                    duration: 1,
+                    x: 50,
+                    opacity: 0,
+                    ease: 'power3.out'
+                });
+            });
+
+            // Scale in elements
+            gsap.utils.toArray('.scale-in').forEach(element => {
+                gsap.from(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse',
+                    },
+                    duration: 1,
+                    scale: 0.9,
+                    opacity: 0,
+                    ease: 'power3.out'
+                });
+            });
+
+            // Stagger animation for cards
+            gsap.utils.toArray('.stagger-item').forEach((element, index) => {
+                gsap.from(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse',
+                    },
+                    duration: 0.8,
+                    y: 20,
+                    opacity: 0,
+                    delay: index * 0.1,
+                    ease: 'power3.out'
+                });
+            });
+
+            // Text reveal animation
+            gsap.utils.toArray('.text-reveal').forEach(element => {
+                gsap.from(element.querySelectorAll('span'), {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse',
+                    },
+                    duration: 1,
+                    y: '100%',
+                    stagger: 0.1,
+                    ease: 'power3.out'
+                });
+            });
+
+            // Parallax effect for background elements
+            gsap.to('.parallax-bg', {
+                scrollTrigger: {
+                    trigger: '.parallax-bg',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
+                },
+                y: (i, target) => -ScrollTrigger.maxScroll(window) * 0.1,
+                ease: 'none'
+            });
+
+            // Magnetic button effect
+            document.querySelectorAll('.magnetic-btn').forEach(button => {
+                button.addEventListener('mousemove', function (e) {
+                    const x = e.pageX - this.offsetLeft;
+                    const y = e.pageY - this.offsetTop;
+
+                    const centerX = this.offsetWidth / 2;
+                    const centerY = this.offsetHeight / 2;
+
+                    const moveX = (x - centerX) * 0.1;
+                    const moveY = (y - centerY) * 0.1;
+
+                    gsap.to(this, {
+                        duration: 0.3,
+                        x: moveX,
+                        y: moveY,
+                        ease: 'power2.out'
+                    });
+                });
+
+                button.addEventListener('mouseleave', function () {
+                    gsap.to(this, {
+                        duration: 0.3,
+                        x: 0,
+                        y: 0,
+                        ease: 'power2.out'
+                    });
+                });
+            });
+
+            // Pulse animation for CTA buttons
+            gsap.to('.pulse', {
+                scale: 1.05,
+                duration: 1,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power1.inOut'
+            });
+
+            // Floating animation
+            gsap.to('.floating', {
+                y: 15,
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: 'power1.inOut'
+            });
+
+            // Ripple effect for buttons
+            document.querySelectorAll('.ripple').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    const x = e.clientX - e.target.offsetLeft;
+                    const y = e.clientY - e.target.offsetTop;
+
+                    const ripple = document.createElement('span');
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.classList.add('ripple-effect');
+
+                    this.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Page transition effect
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        // Create transition overlay
+                        const transition = document.createElement('div');
+                        transition.classList.add('page-transition');
+                        document.body.appendChild(transition);
+
+                        // Animate transition
+                        gsap.to(transition, {
+                            duration: 0.5,
+                            y: 0,
+                            ease: 'power2.inOut',
+                            onComplete: () => {
+                                // Scroll to target
+                                targetElement.scrollIntoView({
+                                    behavior: 'smooth'
+                                });
+
+                                // Reverse animation
+                                setTimeout(() => {
+                                    gsap.to(transition, {
+                                        duration: 0.5,
+                                        y: '100%',
+                                        ease: 'power2.inOut',
+                                        onComplete: () => {
+                                            transition.remove();
+                                        }
+                                    });
+                                }, 300);
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Cursor follower
+            const cursor = document.createElement('div');
+            cursor.classList.add('cursor-follower');
+            document.body.appendChild(cursor);
+
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, {
+                    duration: 0.1,
+                    x: e.clientX - 10,
+                    y: e.clientY - 10,
+                    ease: 'power2.out'
+                });
+            });
+
+            // Hide cursor on scroll
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                cursor.style.opacity = '0';
+
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    cursor.style.opacity = '1';
+                }, 500);
+            });
         }
 
         // NEW: Theme toggle functionality
