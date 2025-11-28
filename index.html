@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin Atwijuka - Solutions Architect & Designer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/TextPlugin.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary: #2dd4bf;
+            --primary-dark: #0d9488;
+            --dark: #020407;
+            --darker: #010205;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--darker);
+            color: #e2e8f0;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        /* Floating particle animation */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-50px) translateX(20px) scale(1.2);
+            }
+
+            100% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+        }
+
+        /* Gradient text effect */
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Glow effect */
+        .glow {
+            box-shadow: 0 0 20px rgba(45, 212, 191, 0.3);
+        }
+
+        /* Card hover effect */
+        .card-hover {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), #60a5fa);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .card-hover:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Section reveal animation */
+        .section-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Skill bar animation */
+        .skill-bar {
+            height: 8px;
+            background-color: #334155;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #60a5fa);
+            border-radius: 4px;
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* Button animation */
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            color: #0f172a;
+            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(45, 212, 191, 0.3);
+        }
+
+        /* Navbar animation */
+        .navbar {
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--primary);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: var(--primary);
+            }
+        }
+
+        /* Social icons */
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1e293b;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: var(--primary);
+            color: #0f172a;
+            transform: translateY(-3px);
+        }
+
+        /* Project image overlay */
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.1), rgba(15, 23, 42, 0.9));
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .project-item:hover .project-overlay {
+            opacity: 1;
+        }
+
+        /* Form styling */
+        .form-input {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+        }
+
+        /* Loading animation */
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #334155;
+            border-bottom-color: var(--primary);
+            border-radius: 50%;
+            display: inline-block;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* NEW: Case Study Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #1e293b;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .modal-tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tech-tag {
+            background-color: rgba(45, 212, 191, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .modal-section {
+            margin-bottom: 24px;
+        }
+
+        .modal-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+
+        .modal-section p {
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .modal-features {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .modal-features li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+
+        .modal-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .modal-footer {
+            padding: 24px;
+            border-top: 1px solid #334155;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* NEW: Dark/Light Mode */
+        [data-theme="light"] {
+            --dark: #f8fafc;
+            --darker: #e2e8f0;
+            --text-color: #1e293b;
+        }
+
+        [data-theme="light"] body {
+            background-color: var(--darker);
+            color: var(--text-color);
+        }
+
+        [data-theme="light"] .bg-gray-800 {
+            background-color: #e2e8f0;
+        }
+
+        [data-theme="light"] .text-gray-300 {
+            color: #475569;
+        }
+
+        [data-theme="light"] .bg-gray-900 {
+            background-color: #cbd5e1;
+        }
+
+        [data-theme="light"] .bg-gray-950 {
+            background-color: #94a3b8;
+        }
+
+        /* NEW: Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            width: 50%;
+            padding-right: 30px;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: 50%;
+            padding-right: 0;
+            padding-left: 30px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            right: -10px;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            right: auto;
+            left: -10px;
+        }
+
+        /* NEW: Testimonials */
+        .testimonial-carousel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-slide {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .testimonial-slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* NEW: Floating Icons */
+        .floating-icon {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.1;
+            animation: float-icon 15s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes float-icon {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        /* NEW: Magnetic buttons */
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .magnetic-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* NEW: Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary);
+            color: var(--dark);
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* NEW: Focus styles for accessibility */
+        *:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* NEW: Filter buttons */
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: #0f172a;
+        }
+
+        /* NEW: Form validation */
+        .error-message {
+            color: #f87171;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .form-input.error {
+            border-color: #f87171;
+        }
+
+        /* NEW: Success message */
+        .success-message {
+            background-color: rgba(21, 128, 61, 0.2);
+            color: #4ade80;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* NEW: Error message */
+        .error-message-global {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 60px;
+                padding-right: 0;
+            }
+
+            .timeline-item:nth-child(even) {
+                margin-left: 0;
+                padding-left: 60px;
+            }
+
+            .timeline-dot {
+                left: 20px;
+                right: auto;
+            }
+
+            .timeline-item:nth-child(even) .timeline-dot {
+                left: 20px;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body class="font-sans overflow-x-hidden" data-theme="dark">
+
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-darker flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="loader mb-4"></div>
+            <p class="text-teal-400">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <div id="back-to-top" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Case Study Modal -->
+    <div id="case-study-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title" class="text-2xl font-bold">Case Study</h2>
+                <button id="modal-close" class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="modal-image" src="" alt="Project Image" class="modal-image">
+                <div id="modal-tech-stack" class="modal-tech-stack">
+                    <!-- Tech stack tags will be inserted here -->
+                </div>
+                <div id="modal-description" class="modal-section">
+                    <!-- Project description will be inserted here -->
+                </div>
+                <div id="modal-challenge" class="modal-section">
+                    <!-- Challenge section will be inserted here -->
+                </div>
+                <div id="modal-solution" class="modal-section">
+                    <!-- Solution section will be inserted here -->
+                </div>
+                <div id="modal-features" class="modal-section">
+                    <!-- Features section will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-close-btn"
+                    class="px-4 py-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition">
+                    Close
+                </button>
+                <a id="modal-live-link" href="#" target="_blank"
+                    class="btn-primary inline-flex items-center justify-center">
+                    <span>View Live Project</span>
+                    <i class="fas fa-external-link-alt ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <header class="fixed top-0 w-full z-50 navbar">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold gradient-text">Kevin Atwijuka</div>
+            <ul class="hidden md:flex space-x-8">
+                <li><a href="#home" class="hover:text-teal-400 transition duration-300 relative group">Home
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full"></span>
+                    </a></li>
+                <li><a href="#about" class="hover:text-teal-400 transition duration-300 relative group">About
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full"></span>
+                    </a></li>
+                <li><a href="#services" class="hover:text-teal-400 transition duration-300 relative group">Services
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full"></span>
+                    </a></li>
+                <li><a href="#skills" class="hover:text-teal-400 transition duration-300 relative group">Skills
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full"></span>
+                    </a></li>
+                <li><a href="#projects" class="hover:text-teal-400 transition duration-300 relative group">Projects
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full"></span>
+                    </a></li>
+                <li><a href="#experience" class="hover:text-teal-400 transition duration-300 relative group">Experience
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full"></span>
+                    </a></li>
+                <li><a href="#contact" class="hover:text-teal-400 transition duration-300 relative group">Contact
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-teal-400 transition-all group-hover:w-full"></span>
+                    </a></li>
+            </ul>
+            <div class="flex items-center space-x-4">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle"
+                    class="p-2 rounded-lg bg-gray-800 text-teal-400 hover:bg-teal-400 hover:text-gray-900 transition">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+                <!-- Hamburger Menu -->
+                <div class="md:hidden">
+                    <button id="menu-btn" class="focus:outline-none">
+                        <div class="w-6 h-0.5 bg-teal-400 mb-1 transition-all transform" id="line1"></div>
+                        <div class="w-6 h-0.5 bg-teal-400 mb-1 transition-all" id="line2"></div>
+                        <div class="w-6 h-0.5 bg-teal-400 transition-all transform" id="line3"></div>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <ul id="mobile-menu"
+            class="md:hidden hidden flex-col bg-gray-900/95 backdrop-blur-sm absolute w-full left-0 px-6 py-4 space-y-4 transition-all duration-300 transform origin-top">
+            <li><a href="#home" class="hover:text-teal-400 transition block py-2">Home</a></li>
+            <li><a href="#about" class="hover:text-teal-400 transition block py-2">About</a></li>
+            <li><a href="#services" class="hover:text-teal-400 transition block py-2">Services</a></li>
+            <li><a href="#skills" class="hover:text-teal-400 transition block py-2">Skills</a></li>
+            <li><a href="#projects" class="hover:text-teal-400 transition block py-2">Projects</a></li>
+            <li><a href="#experience" class="hover:text-teal-400 transition block py-2">Experience</a></li>
+            <li><a href="#contact" class="hover:text-teal-400 transition block py-2">Contact</a></li>
+        </ul>
+    </header>
+
+    <main class="relative" id="main">
+
+        <!-- HERO SECTION -->
+        <section id="home"
+            class="min-h-screen flex items-center justify-center text-center relative overflow-hidden pt-20">
+            <!-- Animated Background -->
+            <div class="absolute inset-0 overflow-hidden" id="floating-icons">
+                <div class="particle w-2 h-2 bg-teal-500" style="top:20%; left:10%; animation-delay:0s;"></div>
+                <div class="particle w-3 h-3 bg-teal-400" style="top:60%; left:30%; animation-delay:5s;"></div>
+                <div class="particle w-1.5 h-1.5 bg-teal-300" style="top:40%; left:70%; animation-delay:10s;"></div>
+                <div class="particle w-2.5 h-2.5 bg-teal-500" style="top:80%; left:20%; animation-delay:15s;"></div>
+                <div class="particle w-2 h-2 bg-teal-400" style="top:30%; left:80%; animation-delay:2s;"></div>
+                <div class="particle w-3 h-3 bg-teal-300" style="top:70%; left:60%; animation-delay:8s;"></div>
+            </div>
+
+            <div class="container mx-auto px-4 z-10 max-w-4xl">
+                <span class="text-lg text-teal-400 font-semibold uppercase tracking-widest mb-4 inline-block">Hello, I'm
+                    Kevin Atwijuka</span>
+                <h1 class="hero-title text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                    Full-Stack <br>
+                    <span class="gradient-text">Developer</span>, <br>
+                    Network Engineer & Creative Designer
+                </h1>
+                <p class="text-xl mb-8 text-gray-300 max-w-3xl mx-auto">
+                    I design and build complete technology solutions that bring together
+                    <strong class="text-teal-400">secure networks</strong>, <strong class="text-teal-400">modern
+                        applications</strong>, and <strong class="text-teal-400">clean visual design</strong>.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+                    <a href="#contact" class="btn-primary magnetic-btn inline-flex items-center justify-center">
+                        <span>Contact Me</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#projects"
+                        class="border border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-gray-900 font-bold py-3 px-6 rounded-lg transition duration-300 magnetic-btn inline-flex items-center justify-center">
+                        <span>View My Work</span>
+                        <i class="fas fa-briefcase ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <a href="#about" class="text-teal-400 text-2xl">
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="py-20 section-reveal bg-gray-900/50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-4">
+                    <span class="text-teal-400">01.</span> Who I Am
+                </h2>
+                <div class="w-20 h-1 bg-teal-400 mx-auto mb-12"></div>
+
+                <div class="flex flex-col lg:flex-row gap-12 items-center max-w-6xl mx-auto">
+                    <div class="lg:w-1/3">
+                        <div class="relative">
+                            <div
+                                class="w-64 h-94 mx-auto bg-gradient-to-br from-teal-400 to-blue-500 rounded-full flex items-center justify-center glow">
+                                <div
+                                    class="w-60 h-90 bg-gray-800 rounded-full flex items-center justify-center overflow-hidden">
+                                    <img src="./kevin.jpg" alt="Kevin Atwijuka" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div
+                                class="absolute -bottom-4 -right-4 w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center">
+                                <i class="fas fa-code text-xl text-gray-900"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:w-2/3">
+                        <div class="text-lg leading-relaxed space-y-6">
+                            <p>
+                                I am a versatile technology professional specializing in <strong
+                                    class="text-teal-400">software development</strong>,
+                                <strong class="text-teal-400">network engineering</strong>, <strong
+                                    class="text-teal-400">security systems</strong>, and <strong
+                                    class="text-teal-400">graphic design</strong>.
+                            </p>
+                            <p>
+                                My experience spans both the <strong class="text-teal-400">physical infrastructure
+                                    layer</strong>—installing and securing
+                                networks, CCTV systems, and hardware—and the <strong class="text-teal-400">digital
+                                    application layer</strong>, creating
+                                modern websites, apps, and branded visual identities.
+                            </p>
+                            <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-teal-500 glow">
+                                This unique combination allows me to approach every project
+                                <strong>holistically</strong>, ensuring
+                                that what I build is not only beautiful and functional, but also <strong>stable, secure,
+                                    and built
+                                    for long-term performance</strong>.
+                            </div>
+                            <p>
+                                I work with individuals, startups, businesses, and organizations to deliver <strong
+                                    class="text-teal-400">seamless,
+                                    high-quality solutions</strong> that cover every aspect of the digital and technical
+                                environment.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section id="services" class="py-20 section-reveal">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-4">
+                    <span class="text-teal-400">02.</span> Services
+                </h2>
+                <div class="w-20 h-1 bg-teal-400 mx-auto mb-12"></div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                    <!-- Software -->
+                    <div class="card-hover bg-gray-800 p-6 rounded-xl glow">
+                        <div class="text-4xl text-teal-400 mb-4 flex justify-center">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-3 text-center">Software & App Development</h3>
+                        <p class="text-gray-300 mb-4 text-center">Modern responsive digital platforms designed for
+                            speed, usability, and scalability.</p>
+                        <ul class="text-sm list-disc list-inside space-y-1 text-gray-300">
+                            <li>Mobile apps (Android & iOS)</li>
+                            <li>Web apps & business systems</li>
+                            <li>Payment gateway integration</li>
+                            <li>Full-stack deployment</li>
+                        </ul>
+                    </div>
+
+                    <!-- Network -->
+                    <div class="card-hover bg-gray-800 p-6 rounded-xl glow">
+                        <div class="text-4xl text-teal-400 mb-4 flex justify-center">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-3 text-center">Network Engineering</h3>
+                        <p class="text-gray-300 mb-4 text-center">Reliable, structured, and secure networks for homes,
+                            offices, and enterprise.</p>
+                        <ul class="text-sm list-disc list-inside space-y-1 text-gray-300">
+                            <li>Wired & wireless network installation</li>
+                            <li>Router, switch & firewall configuration</li>
+                            <li>Structured cabling & planning</li>
+                            <li>Security enhancements</li>
+                        </ul>
+                    </div>
+
+                    <!-- CCTV -->
+                    <div class="card-hover bg-gray-800 p-6 rounded-xl glow">
+                        <div class="text-4xl text-teal-400 mb-4 flex justify-center">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-3 text-center">CCTV & Security Systems</h3>
+                        <p class="text-gray-300 mb-4 text-center">Complete surveillance and security solutions that
+                            ensure safety and real-time visibility.</p>
+                        <ul class="text-sm list-disc list-inside space-y-1 text-gray-300">
+                            <li>CCTV camera installation (IP & analog)</li>
+                            <li>DVR/NVR configuration</li>
+                            <li>Remote monitoring setup</li>
+                            <li>System maintenance & upgrades</li>
+                        </ul>
+                    </div>
+
+                    <!-- Graphic Design -->
+                    <div class="card-hover bg-gray-800 p-6 rounded-xl glow">
+                        <div class="text-4xl text-teal-400 mb-4 flex justify-center">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-3 text-center">Graphic Design & Branding</h3>
+                        <p class="text-gray-300 mb-4 text-center">Modern visuals that elevate brand identity and user
+                            experience.</p>
+                        <ul class="text-sm list-disc list-inside space-y-1 text-gray-300">
+                            <li>Logo & brand identity systems</li>
+                            <li>Website & mobile UI/UX design</li>
+                            <li>Marketing graphics & infographics</li>
+                            <li>Wireframes, prototypes & mockups</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills" class="py-20 section-reveal bg-gray-900/50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-4">
+                    <span class="text-teal-400">03.</span> Skills & Technologies
+                </h2>
+                <div class="w-20 h-1 bg-teal-400 mx-auto mb-12"></div>
+
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <!-- Technical Skills -->
+                        <div>
+                            <h3 class="text-2xl font-bold text-teal-400 mb-6">Technical Expertise</h3>
+                            <div class="space-y-6">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="font-medium">Web Development</span>
+                                        <span class="text-teal-400">90%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="90"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="font-medium">Mobile Development</span>
+                                        <span class="text-teal-400">85%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="85"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="font-medium">Network Engineering</span>
+                                        <span class="text-teal-400">92%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="92"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="font-medium">Security Systems</span>
+                                        <span class="text-teal-400">88%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="88"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tools & Technologies -->
+                        <div>
+                            <h3 class="text-2xl font-bold text-teal-400 mb-6">Tools & Technologies</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-gray-800 p-4 rounded-lg text-center card-hover">
+                                    <i class="fab fa-react text-3xl text-teal-400 mb-2"></i>
+                                    <h4 class="font-semibold">React</h4>
+                                </div>
+                                <div class="bg-gray-800 p-4 rounded-lg text-center card-hover">
+                                    <i class="fab fa-flutter text-3xl text-teal-400 mb-2"></i>
+                                    <h4 class="font-semibold">Flutter</h4>
+                                </div>
+                                <div class="bg-gray-800 p-4 rounded-lg text-center card-hover">
+                                    <i class="fab fa-js text-3xl text-teal-400 mb-2"></i>
+                                    <h4 class="font-semibold">JavaScript</h4>
+                                </div>
+                                <div class="bg-gray-800 p-4 rounded-lg text-center card-hover">
+                                    <i class="fab fa-figma text-3xl text-teal-400 mb-2"></i>
+                                    <h4 class="font-semibold">Figma</h4>
+                                </div>
+                                <div class="bg-gray-800 p-4 rounded-lg text-center card-hover">
+                                    <i class="fas fa-database text-3xl text-teal-400 mb-2"></i>
+                                    <h4 class="font-semibold">Database</h4>
+                                </div>
+                                <div class="bg-gray-800 p-4 rounded-lg text-center card-hover">
+                                    <i class="fas fa-server text-3xl text-teal-400 mb-2"></i>
+                                    <h4 class="font-semibold">Networking</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects" class="py-20 section-reveal">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-4">
+                    <span class="text-teal-400">04.</span> Projects & Work
+                </h2>
+                <div class="w-20 h-1 bg-teal-400 mx-auto mb-12"></div>
+
+                <p class="text-center text-lg max-w-3xl mx-auto mb-10 text-gray-300">
+                    Here are examples of the type of solutions I deliver, blending engineering stability with modern
+                    design.
+                </p>
+
+                <!-- Project Filter -->
+                <div class="flex justify-center mb-8 space-x-4 flex-wrap">
+                    <button class="filter-btn active px-4 py-2 rounded-lg bg-teal-500 text-gray-900"
+                        data-filter="all">All</button>
+                    <button
+                        class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-teal-500 hover:text-gray-900 transition"
+                        data-filter="web">Web</button>
+                    <button
+                        class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-teal-500 hover:text-gray-900 transition"
+                        data-filter="mobile">Mobile</button>
+                    <button
+                        class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-teal-500 hover:text-gray-900 transition"
+                        data-filter="network">Network</button>
+                    <button
+                        class="filter-btn px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-teal-500 hover:text-gray-900 transition"
+                        data-filter="design">Design</button>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <!-- Project 1 -->
+                    <div class="project-item bg-gray-800 rounded-xl overflow-hidden shadow-xl card-hover"
+                        data-category="mobile">
+                        <div class="h-48 bg-gradient-to-r from-teal-400 to-blue-500 relative">
+                            <div class="project-overlay">
+                                <div>
+                                    <h3 class="text-xl font-bold">Mobile App Development</h3>
+                                    <p class="text-sm mt-2">Cross-platform applications</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">Custom Mobile Applications</h3>
+                            <span
+                                class="inline-block bg-teal-800/50 text-teal-300 text-xs px-3 py-1 rounded-full mb-3">Flutter,
+                                React Native</span>
+                            <p class="text-gray-300">Custom Android/iOS apps with clean UI/UX and real-time features.
+                            </p>
+                            <a href="#"
+                                class="mt-4 inline-flex items-center text-teal-400 hover:text-teal-300 view-case-study"
+                                data-project="mobile-app">
+                                <span>View Case Study</span>
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-item bg-gray-800 rounded-xl overflow-hidden shadow-xl card-hover"
+                        data-category="web">
+                        <div class="h-48 bg-gradient-to-r from-purple-500 to-pink-500 relative">
+                            <div class="project-overlay">
+                                <div>
+                                    <h3 class="text-xl font-bold">Web Dashboard</h3>
+                                    <p class="text-sm mt-2">Business intelligence platform</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">E-commerce & Business Platforms</h3>
+                            <span
+                                class="inline-block bg-teal-800/50 text-teal-300 text-xs px-3 py-1 rounded-full mb-3">React,
+                                PHP, APIs</span>
+                            <p class="text-gray-300">Dashboards, e-commerce, booking systems, and responsive websites.
+                            </p>
+                            <a href="#"
+                                class="mt-4 inline-flex items-center text-teal-400 hover:text-teal-300 view-case-study"
+                                data-project="web-dashboard">
+                                <span>View Case Study</span>
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-item bg-gray-800 rounded-xl overflow-hidden shadow-xl card-hover"
+                        data-category="network">
+                        <div class="h-48 bg-gradient-to-r from-yellow-500 to-red-500 relative">
+                            <div class="project-overlay">
+                                <div>
+                                    <h3 class="text-xl font-bold">Network Infrastructure</h3>
+                                    <p class="text-sm mt-2">Enterprise networking solutions</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">Professional Network Installations</h3>
+                            <span
+                                class="inline-block bg-teal-800/50 text-teal-300 text-xs px-3 py-1 rounded-full mb-3">Cisco,
+                                Mikrotik</span>
+                            <p class="text-gray-300">Full wired/wireless setups for homes, offices, shops, and
+                                organizations.</p>
+                            <a href="#"
+                                class="mt-4 inline-flex items-center text-teal-400 hover:text-teal-300 view-case-study"
+                                data-project="network-infrastructure">
+                                <span>View Case Study</span>
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="project-item bg-gray-800 rounded-xl overflow-hidden shadow-xl card-hover"
+                        data-category="design">
+                        <div class="h-48 bg-gradient-to-r from-green-500 to-blue-500 relative">
+                            <div class="project-overlay">
+                                <div>
+                                    <h3 class="text-xl font-bold">Brand Identity</h3>
+                                    <p class="text-sm mt-2">Visual branding system</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">Corporate Branding System</h3>
+                            <span
+                                class="inline-block bg-teal-800/50 text-teal-300 text-xs px-3 py-1 rounded-full mb-3">Figma,
+                                Illustrator</span>
+                            <p class="text-gray-300">Complete visual identity including logo, color palette, and brand
+                                guidelines.
+                            </p>
+                            <a href="#"
+                                class="mt-4 inline-flex items-center text-teal-400 hover:text-teal-300 view-case-study"
+                                data-project="brand-identity">
+                                <span>View Case Study</span>
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="#" class="btn-primary magnetic-btn inline-flex items-center justify-center">
+                        <span>View All Projects</span>
+                        <i class="fas fa-external-link-alt ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="py-20 section-reveal bg-gray-900/50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-4">
+                    <span class="text-teal-400">05.</span> Experience
+                </h2>
+                <div class="w-20 h-1 bg-teal-400 mx-auto mb-12"></div>
+
+                <div class="timeline max-w-4xl mx-auto">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content card-hover bg-gray-800 p-6 rounded-xl">
+                            <span class="text-teal-400 text-sm">2022 - Present</span>
+                            <h3 class="text-xl font-bold mt-2">Senior Full-Stack Developer</h3>
+                            <p class="text-gray-300">Tech Solutions Inc.</p>
+                            <ul class="mt-3 text-gray-300 list-disc list-inside space-y-1">
+                                <li>Led development of 15+ mobile applications</li>
+                                <li>Managed network infrastructure for enterprise clients</li>
+                                <li>Improved system performance by 40%</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content card-hover bg-gray-800 p-6 rounded-xl">
+                            <span class="text-teal-400 text-sm">2020 - 2022</span>
+                            <h3 class="text-xl font-bold mt-2">Network Engineer & Developer</h3>
+                            <p class="text-gray-300">Digital Systems Ltd.</p>
+                            <ul class="mt-3 text-gray-300 list-disc list-inside space-y-1">
+                                <li>Designed and implemented secure network infrastructures</li>
+                                <li>Developed custom business applications</li>
+                                <li>Integrated CCTV and security systems</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content card-hover bg-gray-800 p-6 rounded-xl">
+                            <span class="text-teal-400 text-sm">2018 - 2020</span>
+                            <h3 class="text-xl font-bold mt-2">Junior Developer</h3>
+                            <p class="text-gray-300">WebTech Solutions</p>
+                            <ul class="mt-3 text-gray-300 list-disc list-inside space-y-1">
+                                <li>Built responsive websites and web applications</li>
+                                <li>Assisted in network setup and maintenance</li>
+                                <li>Created visual designs and brand identities</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="py-20 section-reveal bg-gray-900/50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-4">
+                    <span class="text-teal-400">07.</span> Get In Touch
+                </h2>
+                <div class="w-20 h-1 bg-teal-400 mx-auto mb-12"></div>
+
+                <p class="text-2xl font-light max-w-3xl mx-auto mb-10 text-center">
+                    Let's build something powerful, secure, and beautifully designed.
+                </p>
+
+                <div class="flex flex-col lg:flex-row gap-12 max-w-6xl mx-auto">
+                    <div class="lg:w-1/2">
+                        <div class="bg-gray-800 p-8 rounded-xl shadow-2xl glow h-full">
+                            <h3 class="text-2xl font-bold mb-6 text-teal-400">Contact Information</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <i class="fas fa-envelope text-teal-400 text-xl mt-1 mr-4"></i>
+                                    <div>
+                                        <p class="font-semibold">Email</p>
+                                        <a href="mailto:kevinatwijukat@gmail.com"
+                                            class="text-gray-300 hover:text-teal-400 transition">kevinatwijukat@gmail.com</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-phone text-teal-400 text-xl mt-1 mr-4"></i>
+                                    <div>
+                                        <p class="font-semibold">Phone</p>
+                                        <a href="tel:+1234567890"
+                                            class="text-gray-300 hover:text-teal-400 transition">+256 760 228289</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-map-marker-alt text-teal-400 text-xl mt-1 mr-4"></i>
+                                    <div>
+                                        <p class="font-semibold">Location</p>
+                                        <p class="text-gray-300">Kabale, Uganda</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-8">
+                                <h4 class="text-xl font-semibold mb-4 text-teal-400">Follow Me</h4>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="social-icon">
+                                        <i class="fab fa-dribbble"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-1/2">
+                        <div class="bg-gray-800 p-8 rounded-xl shadow-2xl glow h-full">
+                            <h3 class="text-2xl font-bold mb-6 text-teal-400">Send a Message</h3>
+                            <form class="space-y-6" id="contact-form">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div class="form-group">
+                                        <label for="name" class="block mb-2 font-medium">Your Name</label>
+                                        <input type="text" id="name" name="name" required class="form-input w-full"
+                                            data-error="Please enter your name">
+                                        <span class="error-message text-red-400 text-sm hidden"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email" class="block mb-2 font-medium">Your Email</label>
+                                        <input type="email" id="email" name="email" required class="form-input w-full"
+                                            data-error="Please enter a valid email">
+                                        <span class="error-message text-red-400 text-sm hidden"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="budget" class="block mb-2 font-medium">Project Budget</label>
+                                    <select id="budget" name="budget" class="form-input w-full">
+                                        <option value="">Select budget range</option>
+                                        <option value="shs.50,000 - shs.150,000">shs.50,000 - shs.150,000</option>
+                                        <option value="shs.150,000 - shs.450,000">shs.150,000 - shs.450,000</option>
+                                        <option value="shs.450,000 - shs.950,000">shs.450,000 - shs.950,000</option>
+                                        <option value="shs.950,000 - shs.2,550,000">shs.950,000 - shs.2,550,000</option>
+                                        <option value="shs.2,550,000 - shs.4,550,000">shs.2,550,000 - shs.4,550,000
+                                        </option>
+                                        <option value="shs.4,55,000+">shs.4,55,000+</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="services" class="block mb-2 font-medium">Services Needed</label>
+                                    <div class="flex flex-wrap gap-2">
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" name="services" value="web"
+                                                class="rounded bg-gray-700 border-gray-600 text-teal-500 focus:ring-teal-500">
+                                            <span class="ml-2 text-gray-300">Web Development</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" name="services" value="mobile"
+                                                class="rounded bg-gray-700 border-gray-600 text-teal-500 focus:ring-teal-500">
+                                            <span class="ml-2 text-gray-300">Mobile Development</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" name="services" value="network"
+                                                class="rounded bg-gray-700 border-gray-600 text-teal-500 focus:ring-teal-500">
+                                            <span class="ml-2 text-gray-300">Network Engineering</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" name="services" value="design"
+                                                class="rounded bg-gray-700 border-gray-600 text-teal-500 focus:ring-teal-500">
+                                            <span class="ml-2 text-gray-300">Graphic Design</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message" class="block mb-2 font-medium">Message</label>
+                                    <textarea id="message" name="message" rows="5"
+                                        placeholder="Tell me about your project..." class="form-input w-full" required
+                                        data-error="Please enter your message"></textarea>
+                                    <span class="error-message text-red-400 text-sm hidden"></span>
+                                </div>
+                                <button type="submit"
+                                    class="btn-primary magnetic-btn w-full flex items-center justify-center"
+                                    id="submit-btn">
+                                    <span>Send Message</span>
+                                    <i class="fas fa-paper-plane ml-2"></i>
+                                </button>
+
+                                <div id="form-success" class="success-message hidden">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    Thank you! Your message has been sent successfully.
+                                </div>
+
+                                <div id="form-error" class="error-message-global hidden">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span id="error-text">There was an error sending your message. Please try
+                                        again.</span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-950 text-center py-8 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="text-2xl font-bold gradient-text mb-2">Kevin Atwijuka</div>
+                    <p class="text-sm text-gray-400">Solutions Architect & Designer</p>
+                </div>
+                <div class="flex space-x-6 mb-4 md:mb-0">
+                    <a href="#" class="text-gray-400 hover:text-teal-400 transition">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-teal-400 transition">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-teal-400 transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-teal-400 transition">
+                        <i class="fab fa-dribbble"></i>
+                    </a>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">&copy; <span id="year">2025</span> Kevin Atwijuka. All rights
+                        reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Initialize EmailJS with your public key
+        (function () {
+            // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
+            emailjs.init("DBZaK43WX7L3xwYOT");
+        })();
+
+        // Wait for page to load
+        window.addEventListener('load', function () {
+            // Hide loading screen
+            document.getElementById('loading-screen').style.display = 'none';
+
+            // Initialize animations
+            initAnimations();
+
+            // Create floating icons
+            createFloatingIcons();
+        });
+
+        // Mobile menu toggle
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
+        const line3 = document.getElementById('line3');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            line1.classList.toggle('rotate-45');
+            line1.classList.toggle('translate-y-1.5');
+            line2.classList.toggle('opacity-0');
+            line3.classList.toggle('-rotate-45');
+            line3.classList.toggle('-translate-y-1.5');
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            const backToTop = document.getElementById('back-to-top');
+
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+                backToTop.classList.add('active');
+            } else {
+                navbar.classList.remove('scrolled');
+                backToTop.classList.remove('active');
+            }
+        });
+
+        // Back to top functionality
+        document.getElementById('back-to-top').addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Section reveal animation
+        const sections = document.querySelectorAll('.section-reveal');
+        const options = {
+            threshold: 0.1
+        };
+
+        const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('visible');
+                appearOnScroll.unobserve(entry.target);
+            });
+        }, options);
+
+        sections.forEach(section => {
+            appearOnScroll.observe(section);
+        });
+
+        // Skill bar animation
+        const skillBars = document.querySelectorAll('.skill-progress');
+        const skillOptions = {
+            threshold: 0.5
+        };
+
+        const skillObserver = new IntersectionObserver(function (entries, skillObserver) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const width = entry.target.getAttribute('data-width');
+                    entry.target.style.width = width + '%';
+                    skillObserver.unobserve(entry.target);
+                }
+            });
+        }, skillOptions);
+
+        skillBars.forEach(bar => {
+            skillObserver.observe(bar);
+        });
+
+        // Initialize animations with GSAP
+        function initAnimations() {
+            // Hero section animation
+            gsap.from('.hero-title', {
+                duration: 1,
+                y: 50,
+                opacity: 0,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.particle', {
+                duration: 1.5,
+                scale: 0,
+                opacity: 0,
+                stagger: 0.2,
+                ease: 'back.out(1.7)'
+            });
+
+            // Set current year in footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+        }
+
+        // NEW: Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            body.setAttribute('data-theme', newTheme);
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+
+            // Save preference to localStorage
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            themeIcon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // NEW: Project filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectItems = document.querySelectorAll('.project-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                projectItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // NEW: Case Study Modal Functionality
+        const modal = document.getElementById('case-study-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalTitle = document.getElementById('modal-title');
+        const modalImage = document.getElementById('modal-image');
+        const modalTechStack = document.getElementById('modal-tech-stack');
+        const modalDescription = document.getElementById('modal-description');
+        const modalChallenge = document.getElementById('modal-challenge');
+        const modalSolution = document.getElementById('modal-solution');
+        const modalFeatures = document.getElementById('modal-features');
+        const modalLiveLink = document.getElementById('modal-live-link');
+
+        // Case study data
+        const caseStudies = {
+            'mobile-app': {
+                title: 'Custom Mobile Applications',
+                image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                techStack: ['Flutter', 'Dart', 'Firebase', 'REST APIs'],
+                description: '<p>This project involved developing cross-platform mobile applications for both Android and iOS using Flutter. The apps were designed with a focus on clean UI/UX and real-time functionality.</p>',
+                challenge: '<p>The client needed a solution that would work seamlessly across both major mobile platforms while maintaining performance and providing real-time updates to users. They also required offline functionality for areas with limited connectivity.</p>',
+                solution: '<p>I developed a Flutter-based solution with a responsive design that adapts to different screen sizes. The app integrates with Firebase for real-time data synchronization and uses local storage for offline functionality. The clean, intuitive interface ensures users can navigate the app easily.</p>',
+                features: [
+                    'Cross-platform compatibility (Android & iOS)',
+                    'Real-time data synchronization',
+                    'Offline functionality',
+                    'Push notifications',
+                    'Secure user authentication',
+                    'Payment gateway integration'
+                ],
+                liveLink: '#'
+            },
+            'web-dashboard': {
+                title: 'E-commerce & Business Platforms',
+                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                techStack: ['React', 'Node.js', 'MongoDB', 'Express', 'REST APIs'],
+                description: '<p>This project involved creating a comprehensive business dashboard with e-commerce capabilities, analytics, and customer management features.</p>',
+                challenge: '<p>The client required a centralized platform to manage their business operations, including inventory, sales, customer data, and analytics. They needed a solution that was scalable, secure, and provided real-time insights into their business performance.</p>',
+                solution: '<p>I developed a full-stack web application using the MERN stack (MongoDB, Express, React, Node.js). The dashboard provides real-time analytics, inventory management, customer relationship management, and e-commerce functionality with secure payment processing.</p>',
+                features: [
+                    'Real-time business analytics',
+                    'Inventory management system',
+                    'Customer relationship management',
+                    'Secure payment processing',
+                    'Order tracking and management',
+                    'Multi-user access with role-based permissions'
+                ],
+                liveLink: '#'
+            },
+            'network-infrastructure': {
+                title: 'Professional Network Installations',
+                image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                techStack: ['Cisco', 'Mikrotik', 'Structured Cabling', 'Network Security'],
+                description: '<p>This project involved designing and implementing a complete network infrastructure for a medium-sized enterprise with multiple locations.</p>',
+                challenge: '<p>The client needed a reliable, secure, and scalable network that could support their growing business across multiple locations. They required seamless connectivity, robust security measures, and the ability to easily expand the network as their business grows.</p>',
+                solution: '<p>I designed and implemented a comprehensive network solution using Cisco and Mikrotik equipment. The infrastructure includes wired and wireless connectivity, VLAN segmentation for security, firewall configuration, and remote access capabilities. Structured cabling was implemented for optimal performance and future expansion.</p>',
+                features: [
+                    'Wired and wireless network infrastructure',
+                    'VLAN segmentation for enhanced security',
+                    'Firewall and security configuration',
+                    'Remote access capabilities',
+                    'Structured cabling for optimal performance',
+                    'Scalable design for future expansion'
+                ],
+                liveLink: '#'
+            },
+            'brand-identity': {
+                title: 'Corporate Branding System',
+                image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                techStack: ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'Brand Guidelines'],
+                description: '<p>This project involved creating a complete visual identity system for a startup company, including logo design, color palette, typography, and brand guidelines.</p>',
+                challenge: '<p>The client needed a strong, cohesive brand identity that would differentiate them in a competitive market. They required a visual system that could be consistently applied across all touchpoints, from digital platforms to print materials.</p>',
+                solution: '<p>I developed a comprehensive branding system that included a distinctive logo, carefully selected color palette, typography system, and detailed brand guidelines. The identity was designed to be versatile, scalable, and memorable, reflecting the company\'s values and positioning in the market.</p>',
+                features: [
+                    'Distinctive logo design',
+                    'Comprehensive color palette',
+                    'Typography system',
+                    'Brand application examples',
+                    'Digital and print guidelines',
+                    'Brand asset library'
+                ],
+                liveLink: '#'
+            }
+        };
+
+        // Function to open case study modal
+        function openCaseStudy(projectId) {
+            const caseStudy = caseStudies[projectId];
+
+            if (caseStudy) {
+                modalTitle.textContent = caseStudy.title;
+                modalImage.src = caseStudy.image;
+                modalImage.alt = caseStudy.title;
+
+                // Clear and populate tech stack
+                modalTechStack.innerHTML = '';
+                caseStudy.techStack.forEach(tech => {
+                    const techTag = document.createElement('span');
+                    techTag.className = 'tech-tag';
+                    techTag.textContent = tech;
+                    modalTechStack.appendChild(techTag);
+                });
+
+                // Populate content sections
+                modalDescription.innerHTML = `<h3>Project Overview</h3>${caseStudy.description}`;
+                modalChallenge.innerHTML = `<h3>The Challenge</h3>${caseStudy.challenge}`;
+                modalSolution.innerHTML = `<h3>The Solution</h3>${caseStudy.solution}`;
+
+                // Populate features
+                modalFeatures.innerHTML = '<h3>Key Features</h3><ul class="modal-features"></ul>';
+                const featuresList = modalFeatures.querySelector('ul');
+                caseStudy.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.textContent = feature;
+                    featuresList.appendChild(li);
+                });
+
+                // Set live project link
+                modalLiveLink.href = caseStudy.liveLink;
+
+                // Show modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Function to close modal
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Event listeners for case study links
+        document.querySelectorAll('.view-case-study').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const projectId = this.getAttribute('data-project');
+                openCaseStudy(projectId);
+            });
+        });
+
+        // Event listeners for modal close
+        modalClose.addEventListener('click', closeModal);
+        modalCloseBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside content
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // NEW: Form validation and submission with EmailJS
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Reset previous errors
+                const errorMessages = document.querySelectorAll('.error-message');
+                errorMessages.forEach(msg => {
+                    msg.classList.add('hidden');
+                    msg.previousElementSibling.classList.remove('error');
+                });
+
+                // Hide previous messages
+                document.getElementById('form-success').classList.add('hidden');
+                document.getElementById('form-error').classList.add('hidden');
+
+                // Validate form
+                let isValid = true;
+                const requiredFields = contactForm.querySelectorAll('[required]');
+
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        const errorMsg = field.nextElementSibling;
+                        errorMsg.textContent = field.getAttribute('data-error');
+                        errorMsg.classList.remove('hidden');
+                        field.classList.add('error');
+                    }
+                });
+
+                // Validate email format
+                const emailField = document.getElementById('email');
+                if (emailField.value && !isValidEmail(emailField.value)) {
+                    isValid = false;
+                    const errorMsg = emailField.nextElementSibling;
+                    errorMsg.textContent = 'Please enter a valid email address';
+                    errorMsg.classList.remove('hidden');
+                    emailField.classList.add('error');
+                }
+
+                if (isValid) {
+                    // Show loading state
+                    const submitBtn = document.getElementById('submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+                    submitBtn.disabled = true;
+
+                    // Get selected services
+                    const selectedServices = [];
+                    const serviceCheckboxes = document.querySelectorAll('input[name="services"]:checked');
+                    serviceCheckboxes.forEach(checkbox => {
+                        selectedServices.push(checkbox.value);
+                    });
+
+                    // Prepare form data for EmailJS
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        budget: document.getElementById('budget').value,
+                        services: selectedServices.join(', '),
+                        message: document.getElementById('message').value
+                    };
+
+                    // Send email using EmailJS
+                    emailjs.send(
+                        'service_w7qelyg', // Replace with your EmailJS service ID
+                        'template_d67tla8', // Replace with your EmailJS template ID
+                        formData
+                    )
+                        .then(function (response) {
+                            console.log('SUCCESS!', response.status, response.text);
+
+                            // Show success message
+                            document.getElementById('form-success').classList.remove('hidden');
+
+                            // Reset form
+                            contactForm.reset();
+
+                            // Reset button
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+
+                            // Hide success message after 5 seconds
+                            setTimeout(() => {
+                                document.getElementById('form-success').classList.add('hidden');
+                            }, 5000);
+                        }, function (error) {
+                            console.log('FAILED...', error);
+
+                            // Show error message
+                            document.getElementById('form-error').classList.remove('hidden');
+
+                            // Reset button
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+
+                            // Hide error message after 5 seconds
+                            setTimeout(() => {
+                                document.getElementById('form-error').classList.add('hidden');
+                            }, 5000);
+                        });
+                }
+            });
+        }
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // NEW: Create floating icons
+        function createFloatingIcons() {
+            const container = document.getElementById('floating-icons');
+            const icons = ['💻', '🌐', '🔒', '🎨', '📱', '⚡', '🚀', '💡', '🔧', '📊'];
+
+            for (let i = 0; i < 15; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'floating-icon';
+                icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+                icon.style.left = Math.random() * 100 + 'vw';
+                icon.style.animationDelay = Math.random() * 20 + 's';
+                icon.style.fontSize = (Math.random() * 20 + 16) + 'px';
+                container.appendChild(icon);
+            }
+        }
+
+        // NEW: Analytics tracking (simulated)
+        document.addEventListener('click', function (e) {
+            if (e.target.matches('a, button')) {
+                console.log('Clicked:', e.target.textContent || e.target.className);
+                // In a real implementation, you would send this to Google Analytics
+            }
+        });
+
+        // NEW: Scroll depth tracking
+        const scrollDepthThresholds = [25, 50, 75, 90];
+        window.addEventListener('scroll', function () {
+            const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+
+            scrollDepthThresholds.forEach(threshold => {
+                if (scrollPercent >= threshold) {
+                    console.log(`User scrolled ${threshold}% of the page`);
+                    // In a real implementation, you would send this to Google Analytics
+                    // Remove threshold after tracking
+                    scrollDepthThresholds.splice(scrollDepthThresholds.indexOf(threshold), 1);
+                }
+            });
+        });
+
+        // NEW: Form abandonment tracking
+        let formStarted = false;
+        if (contactForm) {
+            contactForm.addEventListener('focusin', () => {
+                if (!formStarted) {
+                    console.log('User started filling out the contact form');
+                    // In a real implementation, you would send this to Google Analytics
+                    formStarted = true;
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
